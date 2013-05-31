@@ -9,7 +9,7 @@ module Trade
     include REXML
 
     def self.get_conversions(file)
-      file = File.new("../data/sample_rates.xml")
+      file = File.new(file)
       doc = Document.new file
 
       froms = XPath.match(doc, "//rate/from").map {|e| e.text}
