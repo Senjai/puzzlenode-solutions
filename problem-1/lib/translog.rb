@@ -1,9 +1,11 @@
 #!/usr/bin/ruby
 # encoding: UTF-8
-require 'csv'
+# I guess I really dont need an initialize method for the class
+# Since the only reason you create it is to get the transactions.
+# But I'll leave it like this incase I want to add functionality to it.
 
 module Trade
-  class TransReader
+  class TransLog
     @@default_header = "store,sku,amount" 
     def initialize(filename, header=@@default_header)
       @filename = filename
@@ -22,7 +24,11 @@ module Trade
 
     def get_transactions(raw=false)
       begin
-        trans_data = CSV.read(@filename)
+        trans_data = []
+        File.foreach(@filename) do |line|
+          trans_data << line.chomp.split(",")
+        end
+        p trans_data
       rescue Exception => e
         puts "Exception in get_transactions, #{e.message}"
       end
