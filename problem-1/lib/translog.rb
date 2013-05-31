@@ -28,7 +28,6 @@ module Trade
         File.foreach(@filename) do |line|
           trans_data << line.chomp.split(",")
         end
-        p trans_data
       rescue Exception => e
         puts "Exception in get_transactions, #{e.message}"
       end
