@@ -9,7 +9,11 @@ module Trade
     include REXML
 
     def self.get_conversions(file)
-      file = File.new(file)
+      begin
+        file = File.new(file)
+      rescue Exception => fail
+        puts "Exception in the horrible parser, #{fail.message}"
+      end
       doc = Document.new file
 
       froms = XPath.match(doc, "//rate/from").map {|e| e.text}
@@ -20,6 +24,7 @@ module Trade
       (0..froms.size-1).each do |i|
         arr << [froms[i], twos[i], conversions[i]]
       end
+      file.close
       arr
       #I don't know how beter to organize this data..
     end
